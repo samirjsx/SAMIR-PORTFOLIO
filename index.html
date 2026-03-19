@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SAMIR - Full Stack Developer Portfolio | Node.js, API, Discord Bot Developer">
     <title>SAMIR — Developer Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* ============================================
-           CSS RESET & BASE STYLES
-           ============================================ */
+        /* ==========================================
+           CSS RESET & VARIABLES
+           ========================================== */
         *, *::before, *::after {
             margin: 0;
             padding: 0;
@@ -16,54 +16,58 @@
         }
 
         :root {
-            --primary: #00d4ff;
-            --primary-dim: #0099cc;
-            --secondary: #7b2fff;
-            --accent: #ff006e;
-            --bg-dark: #0a0a0f;
-            --bg-card: rgba(255, 255, 255, 0.03);
-            --bg-glass: rgba(255, 255, 255, 0.05);
-            --border-glass: rgba(255, 255, 255, 0.08);
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0b8;
-            --text-dim: #6b6b80;
-            --glow-cyan: 0 0 30px rgba(0, 212, 255, 0.3);
-            --glow-purple: 0 0 30px rgba(123, 47, 255, 0.3);
-            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --cyan: #00f5ff;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --dark-bg: #0a0a0f;
+            --dark-surface: #12121a;
+            --dark-card: #1a1a2e;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0b0;
+            --gradient-primary: linear-gradient(135deg, #00f5ff, #8b5cf6, #ec4899);
+            --gradient-cyan-purple: linear-gradient(135deg, #00f5ff, #8b5cf6);
+            --gradient-purple-pink: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --glass-bg: rgba(18, 18, 26, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        /* ==========================================
+           CUSTOM SCROLLBAR
+           ========================================== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--cyan), var(--purple));
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--purple), var(--pink));
         }
 
         html {
             scroll-behavior: smooth;
             scrollbar-width: thin;
-            scrollbar-color: var(--primary) var(--bg-dark);
-        }
-
-        html::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        html::-webkit-scrollbar-track {
-            background: var(--bg-dark);
-        }
-
-        html::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            border-radius: 3px;
+            scrollbar-color: var(--purple) var(--dark-bg);
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-dark);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--dark-bg);
             color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.6;
         }
 
-        /* ============================================
+        /* ==========================================
            PARTICLE CANVAS
-           ============================================ */
-        #particles-canvas {
+           ========================================== */
+        #particle-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -73,99 +77,143 @@
             pointer-events: none;
         }
 
-        /* ============================================
-           NAVIGATION BAR
-           ============================================ */
+        /* ==========================================
+           FLOATING GRADIENT ORBS
+           ========================================== */
+        .gradient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform;
+        }
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--cyan);
+            top: 10%;
+            left: -5%;
+            animation: floatOrb1 20s ease-in-out infinite;
+        }
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: var(--purple);
+            top: 50%;
+            right: -5%;
+            animation: floatOrb2 25s ease-in-out infinite;
+        }
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: var(--pink);
+            bottom: 10%;
+            left: 30%;
+            animation: floatOrb3 22s ease-in-out infinite;
+        }
+
+        @keyframes floatOrb1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(80px, 50px) scale(1.1); }
+            50% { transform: translate(30px, 100px) scale(0.95); }
+            75% { transform: translate(-40px, 60px) scale(1.05); }
+        }
+        @keyframes floatOrb2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(-60px, -40px) scale(1.05); }
+            50% { transform: translate(-100px, 30px) scale(1.1); }
+            75% { transform: translate(-30px, -70px) scale(0.95); }
+        }
+        @keyframes floatOrb3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(70px, -50px) scale(1.08); }
+            66% { transform: translate(-50px, -30px) scale(0.95); }
+        }
+
+        /* ==========================================
+           NAVBAR
+           ========================================== */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
-            padding: 1rem 2rem;
-            transition: var(--transition-smooth);
-            backdrop-filter: blur(0px);
+            padding: 16px 0;
+            transition: all 0.4s var(--transition-smooth);
         }
-
         .navbar.scrolled {
             background: rgba(10, 10, 15, 0.85);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-glass);
-            padding: 0.7rem 2rem;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 12px 0;
         }
-
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .nav-logo {
             font-size: 1.6rem;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: 2px;
-            cursor: pointer;
+            text-decoration: none;
             position: relative;
+            letter-spacing: 2px;
         }
-
         .nav-logo::after {
             content: '';
             position: absolute;
-            bottom: -2px;
+            bottom: -4px;
             left: 0;
-            width: 100%;
+            width: 0;
             height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+            background: var(--gradient-primary);
+            transition: width 0.4s var(--transition-smooth);
         }
-
         .nav-logo:hover::after {
-            transform: scaleX(1);
+            width: 100%;
         }
-
         .nav-links {
             display: flex;
+            gap: 32px;
             list-style: none;
-            gap: 2.5rem;
             align-items: center;
         }
-
         .nav-links a {
-            text-decoration: none;
             color: var(--text-secondary);
-            font-weight: 500;
+            text-decoration: none;
             font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s var(--transition-smooth);
             position: relative;
-            transition: var(--transition-smooth);
-            padding: 0.3rem 0;
+            padding: 4px 0;
         }
-
-        .nav-links a::before {
+        .nav-links a::after {
             content: '';
             position: absolute;
             bottom: -2px;
             left: 50%;
             width: 0;
             height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transition: all 0.3s ease;
+            background: var(--gradient-cyan-purple);
+            transition: all 0.3s var(--transition-smooth);
             transform: translateX(-50%);
             border-radius: 1px;
         }
-
         .nav-links a:hover {
             color: var(--text-primary);
         }
-
-        .nav-links a:hover::before {
+        .nav-links a:hover::after {
             width: 100%;
         }
 
@@ -173,277 +221,324 @@
         .hamburger {
             display: none;
             flex-direction: column;
-            cursor: pointer;
             gap: 5px;
+            cursor: pointer;
             z-index: 1001;
-            padding: 5px;
+            padding: 4px;
         }
-
         .hamburger span {
             width: 28px;
             height: 2.5px;
             background: var(--text-primary);
             border-radius: 2px;
-            transition: var(--transition-smooth);
+            transition: all 0.4s var(--transition-smooth);
             transform-origin: center;
         }
-
         .hamburger.active span:nth-child(1) {
             transform: rotate(45deg) translate(5px, 5px);
         }
-
         .hamburger.active span:nth-child(2) {
             opacity: 0;
             transform: scaleX(0);
         }
-
         .hamburger.active span:nth-child(3) {
             transform: rotate(-45deg) translate(5px, -5px);
         }
 
-        /* Mobile Menu */
+        /* Mobile Menu Overlay */
         .mobile-menu {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100vh;
-            background: rgba(10, 10, 15, 0.97);
+            height: 100%;
+            background: rgba(10, 10, 15, 0.95);
             backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             z-index: 999;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 2rem;
+            flex-direction: column;
+            gap: 32px;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            visibility: hidden;
+            transition: all 0.5s var(--transition-smooth);
         }
-
         .mobile-menu.active {
-            display: flex;
             opacity: 1;
+            visibility: visible;
         }
-
         .mobile-menu a {
-            text-decoration: none;
             color: var(--text-primary);
+            text-decoration: none;
             font-size: 1.8rem;
             font-weight: 600;
-            transition: var(--transition-smooth);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.4s var(--transition-smooth);
+        }
+        .mobile-menu.active a {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .mobile-menu.active a:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-menu.active a:nth-child(2) { transition-delay: 0.2s; }
+        .mobile-menu.active a:nth-child(3) { transition-delay: 0.3s; }
+        .mobile-menu.active a:nth-child(4) { transition-delay: 0.4s; }
+
+        /* ==========================================
+           SECTION BASE STYLES
+           ========================================== */
+        section {
             position: relative;
+            z-index: 1;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            border-radius: 50px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            font-size: 0.85rem;
+            color: var(--purple);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+        }
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .mobile-menu a:hover {
-            color: var(--primary);
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s var(--transition-smooth);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 0.8s var(--transition-smooth);
+        }
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: all 0.8s var(--transition-smooth);
+        }
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        /* ============================================
+        /* ==========================================
            HERO SECTION
-           ============================================ */
+           ========================================== */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            position: relative;
-            z-index: 1;
-            padding: 8rem 2rem 4rem;
-            overflow: hidden;
+            padding: 100px 0 60px;
         }
-
-        /* Animated Gradient Orbs Background */
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -20%;
-            right: -10%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.08), transparent 70%);
-            border-radius: 50%;
-            animation: floatOrb1 8s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -10%;
-            left: -10%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(123, 47, 255, 0.08), transparent 70%);
-            border-radius: 50%;
-            animation: floatOrb2 10s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        @keyframes floatOrb1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(-40px, 30px) scale(1.1); }
-            66% { transform: translate(30px, -20px) scale(0.95); }
-        }
-
-        @keyframes floatOrb2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -40px) scale(1.05); }
-            66% { transform: translate(-20px, 30px) scale(1.1); }
-        }
-
-        .hero-container {
-            max-width: 1200px;
-            width: 100%;
-            display: flex;
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
             align-items: center;
-            justify-content: space-between;
-            gap: 4rem;
-            position: relative;
-            z-index: 2;
+            width: 100%;
         }
-
         .hero-content {
-            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
 
-        .hero-badge {
+        /* Available Badge */
+        .available-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.4rem 1rem;
-            background: var(--bg-glass);
-            border: 1px solid var(--border-glass);
+            gap: 10px;
+            padding: 10px 22px;
             border-radius: 50px;
-            font-size: 0.8rem;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            backdrop-filter: blur(10px);
-            animation: fadeInUp 0.8s ease forwards;
-            opacity: 0;
+            background: rgba(0, 245, 255, 0.08);
+            border: 1px solid rgba(0, 245, 255, 0.25);
+            width: fit-content;
+            font-size: 0.88rem;
+            color: var(--cyan);
+            font-weight: 500;
+            animation: badgeFloat 3s ease-in-out infinite;
         }
-
-        .hero-badge .dot {
-            width: 8px;
-            height: 8px;
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background: #00ff88;
+            border-radius: 50%;
+            position: relative;
+        }
+        .pulse-dot::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
             background: #00ff88;
             border-radius: 50%;
             animation: pulse 2s ease-in-out infinite;
         }
-
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.3); }
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(2.2); opacity: 0; }
+        }
+        @keyframes badgeFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
-        .hero-name {
-            font-size: 4rem;
+        /* Hero Heading */
+        .hero-heading {
+            font-size: 3.8rem;
             font-weight: 900;
             line-height: 1.1;
-            margin-bottom: 0.5rem;
-            animation: fadeInUp 0.8s ease 0.1s forwards;
-            opacity: 0;
+            letter-spacing: -1px;
         }
-
-        .hero-name .gradient-text {
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+        .hero-heading .greeting {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            font-weight: 400;
+            display: block;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .gradient-name {
+            background: var(--gradient-primary);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: gradientShift 4s ease infinite;
+            animation: gradientShift 4s ease-in-out infinite;
         }
-
         @keyframes gradientShift {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
         }
 
-        .hero-typing-wrapper {
+        /* Typing Animation */
+        .typing-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 1.3rem;
             color: var(--text-secondary);
-            margin-bottom: 1rem;
-            min-height: 2rem;
-            animation: fadeInUp 0.8s ease 0.2s forwards;
-            opacity: 0;
+            min-height: 40px;
         }
-
         .typing-text {
-            color: var(--primary);
+            color: var(--cyan);
             font-weight: 600;
-        }
-
-        .typing-cursor {
-            display: inline-block;
-            width: 2px;
-            height: 1.3rem;
-            background: var(--primary);
-            margin-left: 2px;
+            border-right: 2px solid var(--cyan);
+            padding-right: 4px;
             animation: blink 0.8s step-end infinite;
-            vertical-align: text-bottom;
         }
-
         @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+            50% { border-color: transparent; }
         }
 
-        .hero-experience {
+        /* Experience Badge */
+        .experience-badge {
             display: inline-flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.8s ease 0.3s forwards;
-            opacity: 0;
-        }
-
-        .exp-number {
-            font-size: 3rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-        }
-
-        .exp-label {
-            font-size: 0.85rem;
+            gap: 8px;
             color: var(--text-secondary);
-            line-height: 1.3;
+            font-size: 1rem;
+        }
+        .experience-badge .exp-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+        .experience-badge strong {
+            color: var(--text-primary);
+            font-weight: 700;
         }
 
+        /* Hero Buttons */
         .hero-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 16px;
             flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease 0.4s forwards;
-            opacity: 0;
         }
-
         .btn {
-            padding: 0.85rem 2rem;
-            border-radius: 12px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 14px;
             font-size: 0.95rem;
-            cursor: pointer;
-            transition: var(--transition-smooth);
+            font-weight: 600;
             text-decoration: none;
+            cursor: pointer;
+            border: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 10px;
+            transition: all 0.4s var(--transition-smooth);
             position: relative;
             overflow: hidden;
         }
-
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            box-shadow: 0 4px 25px rgba(0, 212, 255, 0.25);
+            background: var(--gradient-cyan-purple);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 245, 255, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 245, 255, 0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+        .btn-secondary:hover {
+            border-color: var(--purple);
+            background: rgba(139, 92, 246, 0.1);
+            transform: translateY(-3px);
         }
 
-        .btn-primary::before {
+        /* Button Shimmer */
+        .btn::before {
             content: '';
             position: absolute;
             top: 0;
@@ -451,710 +546,749 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-            transition: left 0.5s ease;
+            transition: left 0.6s var(--transition-smooth);
         }
-
-        .btn-primary:hover::before {
+        .btn:hover::before {
             left: 100%;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 35px rgba(0, 212, 255, 0.4);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1.5px solid var(--border-glass);
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 25px rgba(0, 212, 255, 0.15);
-            transform: translateY(-3px);
-            background: rgba(0, 212, 255, 0.05);
-        }
-
-        /* Hero Image */
-        .hero-image-wrapper {
-            flex-shrink: 0;
+        /* Hero Visual */
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             position: relative;
-            animation: fadeInUp 0.8s ease 0.3s forwards;
-            opacity: 0;
         }
-
-        .hero-image-container {
-            width: 300px;
-            height: 300px;
+        .profile-container {
             position: relative;
-            animation: float 6s ease-in-out infinite;
+            width: 340px;
+            height: 340px;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .hero-image-glow {
+        /* Profile Image with Glow */
+        .profile-ring {
             position: absolute;
-            inset: -4px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 280px;
+            height: 280px;
             border-radius: 50%;
-            background: conic-gradient(
-                from 0deg,
-                var(--primary),
-                var(--secondary),
-                var(--accent),
-                var(--primary)
-            );
-            animation: rotateGlow 4s linear infinite;
-            filter: blur(2px);
+            background: var(--gradient-primary);
+            padding: 4px;
+            animation: ringRotate 8s linear infinite;
         }
-
-        @keyframes rotateGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes ringRotate {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
-
-        .hero-image-inner {
-            position: absolute;
-            inset: 4px;
-            border-radius: 50%;
-            overflow: hidden;
-            background: var(--bg-dark);
-            z-index: 1;
-        }
-
-        .hero-image-inner img {
+        .profile-ring-inner {
             width: 100%;
             height: 100%;
-            object-fit: cover;
             border-radius: 50%;
+            background: var(--dark-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .profile-img {
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: linear-gradient(135deg, var(--dark-card), var(--dark-surface));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: var(--cyan);
+            font-weight: 900;
+            user-select: none;
         }
 
-        /* Decorative orbiting dots */
+        /* Profile Glow */
+        .profile-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 245, 255, 0.15), transparent 70%);
+            animation: glowPulse 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes glowPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+            50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+        }
+
+        /* Orbiting Elements */
+        .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            animation: orbitSpin 15s linear infinite;
+        }
         .orbit-dot {
             position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            top: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .orbit-dot-1 {
+            background: var(--cyan);
+            box-shadow: 0 0 15px var(--cyan);
+        }
+        .orbit-dot-2 {
+            background: var(--purple);
+            box-shadow: 0 0 15px var(--purple);
+            top: auto;
+            bottom: -7px;
+        }
+        .orbit-dot-3 {
+            background: var(--pink);
+            box-shadow: 0 0 15px var(--pink);
+            top: 50%;
+            left: -7px;
+            transform: translateY(-50%);
+        }
+        .orbit-2 {
+            width: 400px;
+            height: 400px;
+            animation: orbitSpin 20s linear infinite reverse;
+        }
+        .orbit-2 .orbit-dot {
             width: 10px;
             height: 10px;
-            border-radius: 50%;
-            z-index: 2;
+            top: -5px;
+            opacity: 0.6;
         }
 
-        .orbit-dot-1 {
-            background: var(--primary);
-            box-shadow: 0 0 15px var(--primary);
-            animation: orbit1 6s linear infinite;
+        @keyframes orbitSpin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        .orbit-dot-2 {
-            background: var(--secondary);
-            box-shadow: 0 0 15px var(--secondary);
-            animation: orbit2 8s linear infinite;
+        /* Floating tech icons around profile */
+        .floating-tech {
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            backdrop-filter: blur(10px);
+            animation: techFloat 6s ease-in-out infinite;
+        }
+        .tech-1 { top: 20px; right: 20px; animation-delay: 0s; }
+        .tech-2 { bottom: 20px; left: 10px; animation-delay: 1s; }
+        .tech-3 { top: 50%; right: -10px; animation-delay: 2s; }
+        .tech-4 { bottom: 40px; right: 40px; animation-delay: 0.5s; }
+
+        @keyframes techFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
         }
 
-        .orbit-dot-3 {
-            background: var(--accent);
-            box-shadow: 0 0 10px var(--accent);
-            width: 6px;
-            height: 6px;
-            animation: orbit3 5s linear infinite;
-        }
-
-        @keyframes orbit1 {
-            0% { top: 0; left: 50%; }
-            25% { top: 50%; left: 100%; }
-            50% { top: 100%; left: 50%; }
-            75% { top: 50%; left: 0; }
-            100% { top: 0; left: 50%; }
-        }
-
-        @keyframes orbit2 {
-            0% { top: 50%; left: 0; }
-            25% { top: 0; left: 50%; }
-            50% { top: 50%; left: 100%; }
-            75% { top: 100%; left: 50%; }
-            100% { top: 50%; left: 0; }
-        }
-
-        @keyframes orbit3 {
-            0% { top: 15%; left: 15%; }
-            25% { top: 15%; left: 85%; }
-            50% { top: 85%; left: 85%; }
-            75% { top: 85%; left: 15%; }
-            100% { top: 15%; left: 15%; }
-        }
-
-        /* ============================================
-           SECTION COMMON STYLES
-           ============================================ */
-        section {
-            position: relative;
-            z-index: 1;
-            padding: 6rem 2rem;
-        }
-
-        .section-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-subtitle {
-            font-size: 0.85rem;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-
-        .section-title .highlight {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .section-line {
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            margin: 0 auto;
-            border-radius: 2px;
-        }
-
-        /* Reveal Animation */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .reveal.revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ============================================
+        /* ==========================================
            ABOUT SECTION
-           ============================================ */
+           ========================================== */
         .about {
-            background: linear-gradient(180deg, transparent, rgba(0, 212, 255, 0.02), transparent);
+            padding: 120px 0;
         }
-
-        .about-content {
+        .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 60px;
             align-items: start;
         }
-
+        .about-text h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
         .about-text p {
             color: var(--text-secondary);
             font-size: 1.05rem;
             line-height: 1.8;
-            margin-bottom: 1.5rem;
+            margin-bottom: 16px;
+        }
+        .about-text .highlight {
+            color: var(--cyan);
+            font-weight: 600;
         }
 
-        .about-text p strong {
-            color: var(--text-primary);
-        }
-
-        .about-stats {
+        /* Stats Grid */
+        .stats-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 40px;
         }
-
         .stat-card {
-            background: var(--bg-glass);
-            border: 1px solid var(--border-glass);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 24px;
             text-align: center;
             backdrop-filter: blur(10px);
-            transition: var(--transition-smooth);
+            transition: all 0.4s var(--transition-smooth);
         }
-
         .stat-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: var(--glow-cyan);
+            border-color: var(--purple);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.15);
         }
-
         .stat-number {
             font-size: 2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--gradient-cyan-purple);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .stat-label {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            margin-top: 0.3rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 4px;
         }
 
         /* Skills */
         .skills-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
-
         .skill-card {
-            background: var(--bg-glass);
-            border: 1px solid var(--border-glass);
-            border-radius: 14px;
-            padding: 1.2rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px 24px;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 16px;
             backdrop-filter: blur(10px);
-            transition: var(--transition-smooth);
+            transition: all 0.4s var(--transition-smooth);
             cursor: default;
         }
-
         .skill-card:hover {
-            transform: translateX(10px) scale(1.02);
-            border-color: var(--primary);
-            box-shadow: var(--glow-cyan);
-            background: rgba(0, 212, 255, 0.05);
+            border-color: var(--cyan);
+            transform: translateX(8px);
+            box-shadow: 0 4px 20px rgba(0, 245, 255, 0.1);
         }
-
         .skill-icon {
-            width: 45px;
-            height: 45px;
+            width: 48px;
+            height: 48px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             flex-shrink: 0;
         }
-
-        .skill-icon.nodejs { background: rgba(104, 159, 56, 0.15); color: #68a838; }
-        .skill-icon.web { background: rgba(0, 212, 255, 0.15); color: var(--primary); }
-        .skill-icon.api { background: rgba(123, 47, 255, 0.15); color: var(--secondary); }
-        .skill-icon.data { background: rgba(255, 0, 110, 0.15); color: var(--accent); }
-        .skill-icon.discord { background: rgba(88, 101, 242, 0.15); color: #5865f2; }
+        .skill-icon-1 { background: rgba(0, 245, 255, 0.1); color: var(--cyan); }
+        .skill-icon-2 { background: rgba(139, 92, 246, 0.1); color: var(--purple); }
+        .skill-icon-3 { background: rgba(236, 72, 153, 0.1); color: var(--pink); }
+        .skill-icon-4 { background: rgba(0, 245, 255, 0.1); color: var(--cyan); }
+        .skill-icon-5 { background: rgba(139, 92, 246, 0.1); color: var(--purple); }
 
         .skill-info h4 {
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 0.2rem;
+            color: var(--text-primary);
         }
-
         .skill-info p {
-            font-size: 0.75rem;
-            color: var(--text-dim);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
         }
 
-        /* ============================================
+        /* ==========================================
            PROJECTS SECTION
-           ============================================ */
+           ========================================== */
         .projects {
-            background: linear-gradient(180deg, transparent, rgba(123, 47, 255, 0.02), transparent);
+            padding: 120px 0;
         }
-
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
+            gap: 32px;
         }
-
         .project-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+            transition: all 0.5s var(--transition-smooth);
             position: relative;
             overflow: hidden;
-            transition: var(--transition-smooth);
-            border: 1px solid transparent;
-            cursor: default;
         }
-
         .project-card::before {
             content: '';
             position: absolute;
-            inset: 0;
-            border-radius: 20px;
-            padding: 1px;
-            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.4s var(--transition-smooth);
         }
-
         .project-card:hover {
+            border-color: rgba(139, 92, 246, 0.3);
             transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 40px rgba(139, 92, 246, 0.1);
         }
-
-        /* Lyrixa Card */
-        .project-card.lyrixa {
-            background: linear-gradient(135deg, rgba(0, 30, 60, 0.8), rgba(0, 60, 80, 0.4), rgba(0, 212, 255, 0.08));
-            border-color: rgba(0, 212, 255, 0.15);
-        }
-
-        .project-card.lyrixa:hover {
-            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.15), 0 0 40px rgba(0, 212, 255, 0.1);
-            border-color: rgba(0, 212, 255, 0.3);
-        }
-
-        /* Lemon Card */
-        .project-card.lemon {
-            background: linear-gradient(135deg, rgba(60, 60, 40, 0.6), rgba(80, 80, 50, 0.3), rgba(255, 220, 0, 0.05));
-            border-color: rgba(255, 220, 0, 0.12);
-        }
-
-        .project-card.lemon:hover {
-            box-shadow: 0 20px 60px rgba(255, 220, 0, 0.1), 0 0 40px rgba(255, 220, 0, 0.08);
-            border-color: rgba(255, 220, 0, 0.25);
+        .project-card:hover::before {
+            opacity: 1;
         }
 
         .project-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
-
         .project-logo {
-            width: 60px;
-            height: 60px;
+            width: 56px;
+            height: 56px;
             border-radius: 16px;
-            object-fit: cover;
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: 800;
         }
-
-        .project-name {
-            font-size: 1.4rem;
-            font-weight: 700;
+        .project-logo-lyrixa {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(139, 92, 246, 0.2));
+            color: var(--cyan);
+        }
+        .project-logo-lemon {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(139, 92, 246, 0.2));
+            color: var(--pink);
         }
 
         .project-status {
-            font-size: 0.7rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.78rem;
             font-weight: 600;
-            display: inline-block;
-            margin-top: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-
         .status-live {
             background: rgba(0, 255, 136, 0.1);
             color: #00ff88;
             border: 1px solid rgba(0, 255, 136, 0.2);
         }
-
         .status-dev {
-            background: rgba(255, 220, 0, 0.1);
-            color: #ffdc00;
-            border: 1px solid rgba(255, 220, 0, 0.2);
+            background: rgba(255, 170, 0, 0.1);
+            color: #ffaa00;
+            border: 1px solid rgba(255, 170, 0, 0.2);
+        }
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+        .status-live .status-dot {
+            background: #00ff88;
+            box-shadow: 0 0 8px #00ff88;
+        }
+        .status-dev .status-dot {
+            background: #ffaa00;
+            box-shadow: 0 0 8px #ffaa00;
         }
 
-        .project-description {
+        .project-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        .project-desc {
             color: var(--text-secondary);
-            font-size: 0.92rem;
+            font-size: 0.95rem;
             line-height: 1.7;
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
         }
-
         .project-tech {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
+            gap: 8px;
+            margin-bottom: 24px;
         }
-
         .tech-tag {
-            padding: 0.3rem 0.8rem;
+            padding: 6px 14px;
             border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 500;
+            font-size: 0.78rem;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
             color: var(--text-secondary);
-            transition: var(--transition-smooth);
+            font-weight: 500;
+            transition: all 0.3s var(--transition-smooth);
         }
-
         .tech-tag:hover {
-            background: rgba(0, 212, 255, 0.1);
-            border-color: rgba(0, 212, 255, 0.3);
-            color: var(--primary);
+            border-color: var(--cyan);
+            color: var(--cyan);
         }
-
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.7rem 1.5rem;
-            border-radius: 10px;
-            font-size: 0.85rem;
+        .project-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .btn-project {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.88rem;
             font-weight: 600;
             text-decoration: none;
-            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.4s var(--transition-smooth);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+            border: none;
         }
-
-        .project-link.cyan-link {
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(0, 150, 200, 0.1));
-            color: var(--primary);
-            border: 1px solid rgba(0, 212, 255, 0.2);
+        .btn-project::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.6s var(--transition-smooth);
         }
-
-        .project-link.cyan-link:hover {
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(0, 150, 200, 0.2));
-            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.2);
+        .btn-project:hover::before {
+            left: 100%;
+        }
+        .btn-invite {
+            background: var(--gradient-cyan-purple);
+            color: #fff;
+        }
+        .btn-invite:hover {
             transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 245, 255, 0.3);
         }
 
-        .project-link.yellow-link {
-            background: linear-gradient(135deg, rgba(255, 220, 0, 0.12), rgba(200, 180, 0, 0.08));
-            color: #ffdc00;
-            border: 1px solid rgba(255, 220, 0, 0.2);
+        /* ==========================================
+           CONTACT SECTION
+           ========================================== */
+        .contact {
+            padding: 120px 0;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .contact-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px 32px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s var(--transition-smooth);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        .contact-card:hover {
+            border-color: var(--purple);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        .contact-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        .contact-icon-github {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+        }
+        .contact-icon-discord {
+            background: rgba(88, 101, 242, 0.15);
+            color: #5865F2;
+        }
+        .contact-card h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .contact-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .contact-btn {
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+        .contact-btn-github {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .contact-btn-github:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .contact-btn-discord {
+            background: rgba(88, 101, 242, 0.2);
+            border: 1px solid rgba(88, 101, 242, 0.3);
+        }
+        .contact-btn-discord:hover {
+            background: rgba(88, 101, 242, 0.3);
         }
 
-        .project-link.yellow-link:hover {
-            background: linear-gradient(135deg, rgba(255, 220, 0, 0.22), rgba(200, 180, 0, 0.15));
-            box-shadow: 0 4px 20px rgba(255, 220, 0, 0.15);
-            transform: translateY(-2px);
-        }
-
-        /* ============================================
-           CONTACT SECTION (target for contact button)
-           ============================================ */
-
-        /* ============================================
+        /* ==========================================
            FOOTER
-           ============================================ */
+           ========================================== */
         .footer {
             position: relative;
             z-index: 1;
-            text-align: center;
-            padding: 2rem;
+            padding: 40px 0;
         }
-
         .footer-divider {
-            width: 100%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
-            margin-bottom: 2rem;
+            background: var(--gradient-primary);
+            opacity: 0.3;
+            margin-bottom: 40px;
         }
-
-        .footer-text {
-            color: var(--text-dim);
-            font-size: 0.85rem;
+        .footer-content {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
-
-        .footer-text span {
-            color: var(--primary);
+        .footer-content span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-weight: 600;
         }
 
-        /* ============================================
-           ANIMATIONS
-           ============================================ */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* ============================================
+        /* ==========================================
            RESPONSIVE DESIGN
-           ============================================ */
-
-        /* Tablets and smaller laptops */
+           ========================================== */
         @media (max-width: 1024px) {
-            .hero-container {
-                gap: 3rem;
-            }
-
-            .hero-name {
+            .hero-heading {
                 font-size: 3rem;
             }
-
-            .hero-image-container {
-                width: 250px;
-                height: 250px;
+            .profile-container {
+                width: 280px;
+                height: 280px;
             }
-
-            .about-content {
-                gap: 3rem;
+            .profile-ring {
+                width: 230px;
+                height: 230px;
             }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-                max-width: 600px;
-                margin: 0 auto;
+            .profile-img {
+                width: 214px;
+                height: 214px;
+                font-size: 4rem;
+            }
+            .profile-glow {
+                width: 260px;
+                height: 260px;
+            }
+            .orbit {
+                width: 280px;
+                height: 280px;
+            }
+            .orbit-2 {
+                width: 340px;
+                height: 340px;
             }
         }
 
-        /* Tablets */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
-
             .hamburger {
+                display: flex;
+            }
+            .mobile-menu {
                 display: flex;
             }
 
             .hero {
-                padding: 7rem 1.5rem 3rem;
+                padding: 100px 0 60px;
             }
-
-            .hero-container {
-                flex-direction: column-reverse;
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
                 text-align: center;
             }
-
-            .hero-name {
+            .hero-content {
+                align-items: center;
+            }
+            .hero-heading {
                 font-size: 2.5rem;
             }
-
-            .hero-typing-wrapper {
-                font-size: 1.1rem;
-            }
-
-            .hero-experience {
-                justify-content: center;
-            }
-
             .hero-buttons {
                 justify-content: center;
             }
-
-            .hero-image-container {
+            .hero-visual {
+                order: -1;
+            }
+            .profile-container {
+                width: 240px;
+                height: 240px;
+            }
+            .profile-ring {
+                width: 200px;
+                height: 200px;
+            }
+            .profile-img {
+                width: 186px;
+                height: 186px;
+                font-size: 3.5rem;
+            }
+            .profile-glow {
                 width: 220px;
                 height: 220px;
             }
+            .orbit {
+                width: 240px;
+                height: 240px;
+            }
+            .orbit-2 {
+                width: 290px;
+                height: 290px;
+            }
+            .floating-tech {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
 
-            .about-content {
+            .about-grid {
                 grid-template-columns: 1fr;
-                gap: 2.5rem;
+                gap: 40px;
             }
-
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
             .section-title {
-                font-size: 2rem;
-            }
-
-            section {
-                padding: 4rem 1.5rem;
-            }
-
-            .project-card {
-                padding: 1.5rem;
+                font-size: 2.2rem;
             }
         }
 
-        /* Mobile */
         @media (max-width: 480px) {
-            .hero-name {
+            .hero-heading {
                 font-size: 2rem;
             }
-
-            .hero-typing-wrapper {
-                font-size: 0.95rem;
+            .typing-wrapper {
+                font-size: 1rem;
             }
-
-            .hero-image-container {
-                width: 180px;
-                height: 180px;
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
             }
-
-            .exp-number {
-                font-size: 2.5rem;
-            }
-
             .btn {
-                padding: 0.75rem 1.5rem;
-                font-size: 0.85rem;
+                justify-content: center;
+                width: 100%;
             }
-
-            .about-stats {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.8rem;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
             }
-
             .stat-card {
-                padding: 1rem;
+                padding: 16px;
             }
-
             .stat-number {
                 font-size: 1.5rem;
             }
-
+            .project-card {
+                padding: 24px;
+            }
             .section-title {
-                font-size: 1.7rem;
-            }
-
-            .project-name {
-                font-size: 1.2rem;
-            }
-
-            .project-logo {
-                width: 50px;
-                height: 50px;
+                font-size: 1.8rem;
             }
         }
 
-        /* Large screens */
-        @media (min-width: 1400px) {
-            .hero-name {
-                font-size: 4.5rem;
-            }
-
-            .hero-image-container {
-                width: 350px;
-                height: 350px;
-            }
+        /* ==========================================
+           SVG ICONS (inline)
+           ========================================== */
+        .icon-svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+        .icon-svg-lg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
         }
     </style>
 </head>
 <body>
-    <!-- Particle Canvas -->
-    <canvas id="particles-canvas"></canvas>
+    <!-- Particle Canvas Background -->
+    <canvas id="particle-canvas"></canvas>
 
-    <!-- ============================================
-         NAVIGATION BAR
-         ============================================ -->
+    <!-- Floating Gradient Orbs -->
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+
+    <!-- ==========================================
+         NAVBAR
+         ========================================== -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="nav-logo" onclick="scrollToSection('hero')">SAMIR</div>
+            <a href="#home" class="nav-logo">SAMIR</a>
             <ul class="nav-links">
-                <li><a href="#hero" onclick="scrollToSection('hero')">Home</a></li>
-                <li><a href="#about" onclick="scrollToSection('about')">About</a></li>
-                <li><a href="#projects" onclick="scrollToSection('projects')">Projects</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
-            <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <div class="hamburger" id="hamburger" aria-label="Toggle menu" role="button" tabindex="0">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -1162,88 +1296,128 @@
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="#hero" onclick="closeMenuAndScroll('hero')">Home</a>
-        <a href="#about" onclick="closeMenuAndScroll('about')">About</a>
-        <a href="#projects" onclick="closeMenuAndScroll('projects')">Projects</a>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#home" class="mobile-link">Home</a>
+        <a href="#about" class="mobile-link">About</a>
+        <a href="#projects" class="mobile-link">Projects</a>
+        <a href="#contact" class="mobile-link">Contact</a>
     </div>
 
-    <!-- ============================================
+    <!-- ==========================================
          HERO SECTION
-         ============================================ -->
-    <section class="hero" id="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <span class="dot"></span>
-                    Available for projects
-                </div>
-                <h1 class="hero-name">
-                    Hi, I'm <span class="gradient-text">SAMIR</span>
-                </h1>
-                <div class="hero-typing-wrapper">
-                    <span>I'm a </span><span class="typing-text" id="typingText"></span><span class="typing-cursor"></span>
-                </div>
-                <div class="hero-experience">
-                    <span class="exp-number">4+</span>
-                    <span class="exp-label">Years of<br>Experience</span>
-                </div>
-                <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary" onclick="scrollToSection('projects')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                        View Projects
-                    </a>
-                    <a href="#about" class="btn btn-secondary" onclick="scrollToSection('about')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        Contact
-                    </a>
-                </div>
-            </div>
-            <div class="hero-image-wrapper">
-                <div class="hero-image-container">
-                    <div class="hero-image-glow"></div>
-                    <div class="hero-image-inner">
-                        <img src="https://images-ext-1.discordapp.net/external/en98Dt_VzN9bgT9OoF0pwRlNT-J92xfq_JolVwayoXs/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/1311941838663450695/50b178d15cd9a1f77f9eed1d01b8126d.png?format=webp&quality=lossless" alt="SAMIR's Profile Picture" loading="eager">
+         ========================================== -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-grid">
+                <!-- Hero Content (Left) -->
+                <div class="hero-content">
+                    <div class="available-badge">
+                        <span class="pulse-dot"></span>
+                        Available for projects
                     </div>
-                    <div class="orbit-dot orbit-dot-1"></div>
-                    <div class="orbit-dot orbit-dot-2"></div>
-                    <div class="orbit-dot orbit-dot-3"></div>
+
+                    <h1 class="hero-heading">
+                        <span class="greeting">Hello World</span>
+                        Hi, I'm <span class="gradient-name">SAMIR</span>
+                    </h1>
+
+                    <div class="typing-wrapper">
+                        I'm a <span class="typing-text" id="typing-text"></span>
+                    </div>
+
+                    <div class="experience-badge">
+                        <span class="exp-icon">⚡</span>
+                        <span><strong>4+ Years</strong> of Experience</span>
+                    </div>
+
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">
+                            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            View Projects
+                        </a>
+                        <a href="#contact" class="btn btn-secondary">
+                            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            Contact
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Visual (Right) -->
+                <div class="hero-visual">
+                    <div class="profile-container">
+                        <!-- Glow -->
+                        <div class="profile-glow"></div>
+
+                        <!-- Profile Ring & Image -->
+                        <div class="profile-ring">
+                            <div class="profile-ring-inner">
+                                <div class="profile-img">S</div>
+                            </div>
+                        </div>
+
+                        <!-- Orbiting Elements -->
+                        <div class="orbit">
+                            <div class="orbit-dot orbit-dot-1"></div>
+                            <div class="orbit-dot orbit-dot-2"></div>
+                            <div class="orbit-dot orbit-dot-3"></div>
+                        </div>
+                        <div class="orbit orbit-2">
+                            <div class="orbit-dot orbit-dot-1" style="opacity:0.4;width:8px;height:8px;top:-4px;"></div>
+                            <div class="orbit-dot orbit-dot-2" style="opacity:0.4;width:8px;height:8px;bottom:-4px;"></div>
+                        </div>
+
+                        <!-- Floating Tech Icons -->
+                        <div class="floating-tech tech-1">⚙️</div>
+                        <div class="floating-tech tech-2">🚀</div>
+                        <div class="floating-tech tech-3">💻</div>
+                        <div class="floating-tech tech-4">🤖</div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ============================================
+    <!-- ==========================================
          ABOUT SECTION
-         ============================================ -->
+         ========================================== -->
     <section class="about" id="about">
-        <div class="section-container">
+        <div class="container">
             <div class="section-header reveal">
-                <p class="section-subtitle">About Me</p>
-                <h2 class="section-title">Crafting Digital <span class="highlight">Experiences</span></h2>
-                <div class="section-line"></div>
+                <div class="section-badge">
+                    ✦ About Me
+                </div>
+                <h2 class="section-title">Who I Am</h2>
+                <p class="section-subtitle">Passionate developer focused on building robust backend systems and creative Discord experiences.</p>
             </div>
-            <div class="about-content">
-                <div class="about-text reveal">
+
+            <div class="about-grid">
+                <!-- About Text (Left) -->
+                <div class="about-text reveal-left">
+                    <h3>A Backend-Focused Developer</h3>
                     <p>
-                        I'm <strong>SAMIR</strong>, a passionate software developer with <strong>4 years of experience</strong> in building robust backend systems, powerful Discord bots, and modern web applications. I love turning complex problems into elegant, efficient solutions.
+                        I'm <span class="highlight">SAMIR</span>, a developer with over <span class="highlight">4 years of experience</span> building scalable backend systems, RESTful APIs, and feature-rich Discord bots. I specialize in <span class="highlight">Node.js</span> and love crafting efficient, clean, and maintainable code.
                     </p>
                     <p>
-                        My expertise spans across <strong>backend development</strong>, <strong>API architecture</strong>, and <strong>bot development</strong>. I thrive in creating scalable applications that deliver outstanding performance and user experience. Whether it's a high-performance music bot or an advanced anti-nuke system, I build with precision and passion.
+                        My journey started with curiosity about how bots work, and it evolved into a deep passion for server-side development. From designing database architectures to building real-time communication systems, I enjoy tackling complex problems and turning them into elegant solutions.
                     </p>
-                    <div class="about-stats">
+                    <p>
+                        When I'm not coding, I'm exploring new technologies, contributing to open-source projects, and helping other developers in the community grow.
+                    </p>
+
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
                         <div class="stat-card">
                             <div class="stat-number">4+</div>
                             <div class="stat-label">Years Experience</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-number">20+</div>
-                            <div class="stat-label">Projects Built</div>
+                            <div class="stat-label">Projects</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-number">5K+</div>
-                            <div class="stat-label">Users Served</div>
+                            <div class="stat-label">Users</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-number">99%</div>
@@ -1251,40 +1425,52 @@
                         </div>
                     </div>
                 </div>
-                <div class="skills-grid reveal">
+
+                <!-- Skills (Right) -->
+                <div class="skills-grid reveal-right">
                     <div class="skill-card">
-                        <div class="skill-icon nodejs">⬢</div>
+                        <div class="skill-icon skill-icon-1">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.985c-.275 0-.532-.074-.772-.202l-2.439-1.448c-.365-.203-.182-.275-.066-.316.489-.168.586-.207 1.101-.502.055-.029.127-.018.184.015l1.874 1.115c.068.037.166.037.229 0l7.312-4.226c.068-.037.112-.112.112-.194V7.998c0-.084-.044-.159-.114-.198l-7.308-4.22c-.068-.04-.16-.04-.23 0L4.573 7.8c-.07.04-.114.118-.114.2v8.428c0 .08.044.157.112.194l2.002 1.157c1.085.544 1.753-.096 1.753-.738V8.718c0-.114.093-.202.21-.202h.907c.114 0 .21.09.21.202v8.323c0 1.445-.787 2.278-2.156 2.278-.42 0-.752 0-1.678-.455l-1.918-1.103C3.38 17.408 3 16.794 3 16.13V7.7c0-.664.38-1.278.974-1.618l7.312-4.23c.578-.327 1.348-.327 1.922 0l7.312 4.23c.594.34.974.954.974 1.618v8.43c0 .664-.38 1.28-.974 1.617l-7.312 4.226c-.24.13-.496.2-.772.2h.036v.012zM14.573 15.83c-3.214 0-3.886-1.474-3.886-2.72 0-.114.092-.207.21-.207h.924c.105 0 .192.074.21.177.14.96.574 1.443 2.538 1.443 1.56 0 2.228-.352 2.228-1.183 0-.478-.19-.832-2.62-1.073-2.032-.203-3.29-.65-3.29-2.278 0-1.5 1.264-2.394 3.384-2.394 2.38 0 3.554.826 3.704 2.598a.21.21 0 0 1-.21.229h-.928a.205.205 0 0 1-.2-.162c-.222-.988-.764-1.305-2.37-1.305-1.744 0-1.948.608-1.948 1.063 0 .552.24.712 2.54.023 2.275.308 3.37.746 3.37 2.334 0 1.617-1.35 2.548-3.702 2.548l.046-.053z"/></svg>
+                        </div>
                         <div class="skill-info">
                             <h4>Node.js</h4>
-                            <p>Backend development & server-side applications</p>
+                            <p>Runtime & server-side JavaScript</p>
                         </div>
                     </div>
                     <div class="skill-card">
-                        <div class="skill-icon web">◈</div>
+                        <div class="skill-icon skill-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                        </div>
                         <div class="skill-info">
-                            <h4>Full Web Development</h4>
-                            <p>Modern, responsive websites & web applications</p>
+                            <h4>Web Development</h4>
+                            <p>HTML, CSS, JavaScript & frameworks</p>
                         </div>
                     </div>
                     <div class="skill-card">
-                        <div class="skill-icon api">⟡</div>
+                        <div class="skill-icon skill-icon-3">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                        </div>
                         <div class="skill-info">
                             <h4>API Development</h4>
-                            <p>RESTful APIs & scalable microservices</p>
+                            <p>RESTful APIs & microservices</p>
                         </div>
                     </div>
                     <div class="skill-card">
-                        <div class="skill-icon data">◉</div>
+                        <div class="skill-icon skill-icon-4">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                        </div>
                         <div class="skill-info">
                             <h4>Data Analysis</h4>
-                            <p>Data processing, visualization & insights</p>
+                            <p>Data processing & visualization</p>
                         </div>
                     </div>
                     <div class="skill-card">
-                        <div class="skill-icon discord">◆</div>
+                        <div class="skill-icon skill-icon-5">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg>
+                        </div>
                         <div class="skill-info">
                             <h4>Discord Bot Development</h4>
-                            <p>Feature-rich bots with Discord.js & Lavalink</p>
+                            <p>discord.js, Lavalink & more</p>
                         </div>
                     </div>
                 </div>
@@ -1292,340 +1478,438 @@
         </div>
     </section>
 
-    <!-- ============================================
+    <!-- ==========================================
          PROJECTS SECTION
-         ============================================ -->
+         ========================================== -->
     <section class="projects" id="projects">
-        <div class="section-container">
+        <div class="container">
             <div class="section-header reveal">
-                <p class="section-subtitle">My Work</p>
-                <h2 class="section-title">Featured <span class="highlight">Projects</span></h2>
-                <div class="section-line"></div>
+                <div class="section-badge">
+                    🚀 Featured Work
+                </div>
+                <h2 class="section-title">My Projects</h2>
+                <p class="section-subtitle">Some of the projects I've built and continue to maintain.</p>
             </div>
+
             <div class="projects-grid">
-                <!-- Project 1: Lyrixa -->
-                <div class="project-card lyrixa reveal">
+                <!-- Lyrixa Project Card -->
+                <div class="project-card reveal-left">
                     <div class="project-header">
-                        <img src="https://cdn.discordapp.com/avatars/1480938194697453690/e0631f3a2481580668049e324cd8a2e1.png?size=1024" alt="Lyrixa Logo" class="project-logo" loading="lazy">
-                        <div>
-                            <h3 class="project-name">Lyrixa</h3>
-                            <span class="project-status status-live">● Live</span>
+                        <div class="project-logo project-logo-lyrixa">🎵</div>
+                        <div class="project-status status-live">
+                            <span class="status-dot"></span>
+                            Live
                         </div>
                     </div>
-                    <p class="project-description">
-                        The best music bot for Discord — delivering high-quality audio streaming with advanced playback controls, queue management, filters, and seamless Lavalink integration for a premium music experience.
+                    <h3 class="project-name">Lyrixa</h3>
+                    <p class="project-desc">
+                        A high-quality Discord music bot powered by Lavalink. Features include queue management, filters, autoplay, 24/7 mode, playlist support, and seamless audio streaming across multiple servers.
                     </p>
                     <div class="project-tech">
                         <span class="tech-tag">Node.js</span>
                         <span class="tech-tag">Discord.js</span>
                         <span class="tech-tag">Lavalink</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">REST API</span>
                     </div>
-                    <a href="https://discord.com/oauth2/authorize?client_id=1480938194697453690&permissions=8&scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer" class="project-link cyan-link">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                        Invite Bot
-                    </a>
+                    <div class="project-actions">
+                        <a href="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID" target="_blank" rel="noopener noreferrer" class="btn-project btn-invite">
+                            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                            Invite Bot
+                        </a>
+                    </div>
                 </div>
 
-                <!-- Project 2: Lemon -->
-                <div class="project-card lemon reveal">
+                <!-- Lemon Project Card -->
+                <div class="project-card reveal-right">
                     <div class="project-header">
-                        <img src="https://cdn.discordapp.com/avatars/1475184100187836578/32042c60026f70b80da85355e0d27309.png?size=1024" alt="Lemon Logo" class="project-logo" loading="lazy">
-                        <div>
-                            <h3 class="project-name">Lemon</h3>
-                            <span class="project-status status-dev">⟳ In Development</span>
+                        <div class="project-logo project-logo-lemon">🛡️</div>
+                        <div class="project-status status-dev">
+                            <span class="status-dot"></span>
+                            In Development
                         </div>
                     </div>
-                    <p class="project-description">
-                        Best Anti-Nuke and AutoMod System — a powerful security bot designed to protect Discord servers from nuking, raiding, and spam attacks. Features advanced moderation tools and real-time threat detection. Currently under active development.
+                    <h3 class="project-name">Lemon</h3>
+                    <p class="project-desc">
+                        An advanced anti-nuke and AutoMod Discord bot designed to protect servers from raids, mass bans, and other malicious activities. Features include intelligent threat detection, whitelist systems, and real-time alerts.
                     </p>
                     <div class="project-tech">
                         <span class="tech-tag">Node.js</span>
                         <span class="tech-tag">Discord.js</span>
-                        <span class="tech-tag">Security</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Anti-Nuke</span>
                         <span class="tech-tag">AutoMod</span>
                     </div>
-                    <a href="https://discord.com/api/oauth2/authorize?client_id=1475184100187836578&permissions=8&scope=bot" target="_blank" rel="noopener noreferrer" class="project-link yellow-link">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                        Invite Bot
-                    </a>
+                    <div class="project-actions">
+                        <a href="https://discord.gg/jfcNB566Yw" target="_blank" rel="noopener noreferrer" class="btn-project btn-invite">
+                            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                            Join Server
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ============================================
+    <!-- ==========================================
+         CONTACT SECTION
+         ========================================== -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge">
+                    💬 Get in Touch
+                </div>
+                <h2 class="section-title">Contact Me</h2>
+                <p class="section-subtitle">Feel free to reach out for projects, collaborations, or just a friendly chat.</p>
+            </div>
+
+            <div class="contact-grid">
+                <a href="https://github.com/samirjsx" target="_blank" rel="noopener noreferrer" class="contact-card reveal-left">
+                    <div class="contact-icon contact-icon-github">
+                        <svg class="icon-svg-lg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </div>
+                    <h4>GitHub</h4>
+                    <p>Check out my code and projects</p>
+                    <span class="contact-btn contact-btn-github">
+                        Visit Profile →
+                    </span>
+                </a>
+
+                <a href="https://discord.gg/jfcNB566Yw" target="_blank" rel="noopener noreferrer" class="contact-card reveal-right">
+                    <div class="contact-icon contact-icon-discord">
+                        <svg class="icon-svg-lg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg>
+                    </div>
+                    <h4>Discord Server</h4>
+                    <p>Join the community and chat</p>
+                    <span class="contact-btn contact-btn-discord">
+                        Join Server →
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
          FOOTER
-         ============================================ -->
+         ========================================== -->
     <footer class="footer">
-        <div class="footer-divider"></div>
-        <p class="footer-text">© 2026 <span>SAMIR</span> — All Rights Reserved</p>
+        <div class="container">
+            <div class="footer-divider"></div>
+            <div class="footer-content">
+                © 2026 <span>SAMIR</span> — All Rights Reserved.
+            </div>
+        </div>
     </footer>
 
-    <!-- ============================================
+    <!-- ==========================================
          JAVASCRIPT
-         ============================================ -->
+         ========================================== -->
     <script>
-        /* ============================================
-           PARTICLE BACKGROUND ANIMATION
-           ============================================ */
-        (function() {
-            const canvas = document.getElementById('particles-canvas');
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            let mouseX = 0, mouseY = 0;
-            let animationId;
+    (function() {
+        'use strict';
 
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
+        /* ==========================================
+           PARTICLE CANVAS SYSTEM
+           ========================================== */
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouseX = 0;
+        let mouseY = 0;
+        let animationId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.reset();
             }
-
-            resize();
-            window.addEventListener('resize', resize);
-
-            document.addEventListener('mousemove', function(e) {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
-
-            class Particle {
-                constructor() {
-                    this.reset();
-                }
-
-                reset() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.size = Math.random() * 2 + 0.5;
-                    this.speedX = (Math.random() - 0.5) * 0.5;
-                    this.speedY = (Math.random() - 0.5) * 0.5;
-                    this.opacity = Math.random() * 0.5 + 0.1;
-                    this.hue = Math.random() > 0.5 ? 190 : 270; // Cyan or purple
-                }
-
-                update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-
-                    // Subtle mouse interaction
-                    const dx = mouseX - this.x;
-                    const dy = mouseY - this.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 120) {
-                        this.x -= dx * 0.003;
-                        this.y -= dy * 0.003;
-                    }
-
-                    // Wrap around
-                    if (this.x < 0) this.x = canvas.width;
-                    if (this.x > canvas.width) this.x = 0;
-                    if (this.y < 0) this.y = canvas.height;
-                    if (this.y > canvas.height) this.y = 0;
-                }
-
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = `hsla(${this.hue}, 80%, 65%, ${this.opacity})`;
-                    ctx.fill();
-                }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                // Color: cyan, purple, or pink
+                const colors = ['0, 245, 255', '139, 92, 246', '236, 72, 153'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
             }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
 
-            // Determine particle count based on screen size
-            function getParticleCount() {
-                const area = canvas.width * canvas.height;
-                return Math.min(Math.floor(area / 15000), 80);
-            }
-
-            function initParticles() {
-                particles = [];
-                const count = getParticleCount();
-                for (let i = 0; i < count; i++) {
-                    particles.push(new Particle());
-                }
-            }
-
-            initParticles();
-            window.addEventListener('resize', function() {
-                resize();
-                initParticles();
-            });
-
-            function connectParticles() {
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x;
-                        const dy = particles[i].y - particles[j].y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-
-                        if (dist < 150) {
-                            const opacity = (1 - dist / 150) * 0.15;
-                            ctx.beginPath();
-                            ctx.strokeStyle = `rgba(0, 212, 255, ${opacity})`;
-                            ctx.lineWidth = 0.5;
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.stroke();
-                        }
-                    }
-                }
-            }
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                particles.forEach(p => {
-                    p.update();
-                    p.draw();
-                });
-
-                connectParticles();
-                animationId = requestAnimationFrame(animate);
-            }
-
-            animate();
-        })();
-
-        /* ============================================
-           TYPING ANIMATION
-           ============================================ */
-        (function() {
-            const roles = [
-                'Node.js Developer',
-                'API Developer',
-                'Discord Bot Developer',
-                'Web Developer'
-            ];
-            const typingElement = document.getElementById('typingText');
-            let roleIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
-            let typingSpeed = 100;
-
-            function type() {
-                const currentRole = roles[roleIndex];
-
-                if (isDeleting) {
-                    typingElement.textContent = currentRole.substring(0, charIndex - 1);
-                    charIndex--;
-                    typingSpeed = 50;
-                } else {
-                    typingElement.textContent = currentRole.substring(0, charIndex + 1);
-                    charIndex++;
-                    typingSpeed = 100;
+                // Mouse repulsion
+                const dx = this.x - mouseX;
+                const dy = this.y - mouseY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 120) {
+                    const force = (120 - dist) / 120;
+                    this.x += dx / dist * force * 2;
+                    this.y += dy / dist * force * 2;
                 }
 
-                if (!isDeleting && charIndex === currentRole.length) {
-                    typingSpeed = 2000; // Pause at end
-                    isDeleting = true;
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
-                    roleIndex = (roleIndex + 1) % roles.length;
-                    typingSpeed = 400; // Pause before next word
-                }
-
-                setTimeout(type, typingSpeed);
+                // Wrap around
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
             }
-
-            // Start typing after a small delay
-            setTimeout(type, 1000);
-        })();
-
-        /* ============================================
-           SCROLL REVEAL ANIMATION
-           ============================================ */
-        (function() {
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('revealed');
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            });
-
-            document.querySelectorAll('.reveal').forEach(function(el) {
-                observer.observe(el);
-            });
-        })();
-
-        /* ============================================
-           NAVBAR SCROLL EFFECT
-           ============================================ */
-        (function() {
-            const navbar = document.getElementById('navbar');
-            let lastScroll = 0;
-
-            window.addEventListener('scroll', function() {
-                const currentScroll = window.pageYOffset;
-
-                if (currentScroll > 50) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
-
-                lastScroll = currentScroll;
-            });
-        })();
-
-        /* ============================================
-           SMOOTH SCROLL TO SECTION
-           ============================================ */
-        function scrollToSection(id) {
-            const el = document.getElementById(id);
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+                ctx.fill();
             }
         }
 
-        /* ============================================
-           HAMBURGER / MOBILE MENU
-           ============================================ */
-        function toggleMenu() {
-            const hamburger = document.getElementById('hamburger');
-            const mobileMenu = document.getElementById('mobileMenu');
+        function initParticles() {
+            particles = [];
+            const count = Math.min(Math.floor((canvas.width * canvas.height) / 12000), 120);
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
 
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        const opacity = (1 - dist / 150) * 0.15;
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(139, 92, 246, ${opacity})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            drawConnections();
+            animationId = requestAnimationFrame(animateParticles);
+        }
+
+        resizeCanvas();
+        initParticles();
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        /* ==========================================
+           TYPING ANIMATION
+           ========================================== */
+        const typingElement = document.getElementById('typing-text');
+        const words = [
+            'Node.js Developer',
+            'API Developer',
+            'Discord Bot Developer',
+            'Web Developer'
+        ];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingTimeout;
+
+        function typeEffect() {
+            const currentWord = words[wordIndex];
+
+            if (isDeleting) {
+                typingElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let delay = isDeleting ? 40 : 80 + Math.random() * 40;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                delay = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                delay = 400;
+            }
+
+            typingTimeout = setTimeout(typeEffect, delay);
+        }
+
+        typeEffect();
+
+        /* ==========================================
+           NAVBAR SCROLL EFFECT
+           ========================================== */
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.scrollY;
+            if (currentScroll > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            lastScroll = currentScroll;
+        }, { passive: true });
+
+        /* ==========================================
+           HAMBURGER MENU
+           ========================================== */
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
             mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
 
-            // Prevent body scroll when menu is open
-            if (mobileMenu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
+        // Close mobile menu on link click
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
                 document.body.style.overflow = '';
             }
-        }
+        });
 
-        function closeMenuAndScroll(id) {
-            const hamburger = document.getElementById('hamburger');
-            const mobileMenu = document.getElementById('mobileMenu');
+        /* ==========================================
+           SCROLL REVEAL (Intersection Observer)
+           ========================================== */
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
 
-            hamburger.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
 
-            setTimeout(function() {
-                scrollToSection(id);
-            }, 100);
-        }
+        revealElements.forEach(el => revealObserver.observe(el));
 
-        /* ============================================
-           PREVENT DEFAULT ON NAV LINKS (smooth scroll)
-           ============================================ */
-        document.querySelectorAll('.nav-links a').forEach(function(link) {
-            link.addEventListener('click', function(e) {
+        /* ==========================================
+           SMOOTH SCROLL FOR ANCHOR LINKS
+           ========================================== */
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
 
-        document.querySelectorAll('.mobile-menu a').forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
+        /* ==========================================
+           PARALLAX EFFECT ON HERO VISUAL
+           ========================================== */
+        const heroVisual = document.querySelector('.hero-visual');
+        if (heroVisual) {
+            document.addEventListener('mousemove', (e) => {
+                if (window.innerWidth < 768) return;
+                const xRatio = (e.clientX / window.innerWidth - 0.5) * 2;
+                const yRatio = (e.clientY / window.innerHeight - 0.5) * 2;
+                requestAnimationFrame(() => {
+                    heroVisual.style.transform = `translate(${xRatio * 10}px, ${yRatio * 10}px)`;
+                });
             });
+        }
+
+        /* ==========================================
+           ACTIVE NAV LINK HIGHLIGHTING
+           ========================================== */
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.style.color = 'var(--text-primary)';
+                        } else {
+                            link.style.color = '';
+                        }
+                    });
+                }
+            });
+        }, {
+            threshold: 0.3
         });
+
+        sections.forEach(section => navObserver.observe(section));
+
+        /* ==========================================
+           STAGGER ANIMATION FOR SKILL CARDS
+           ========================================== */
+        const skillCards = document.querySelectorAll('.skill-card');
+        skillCards.forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.1}s`;
+        });
+
+        /* ==========================================
+           STAGGER ANIMATION FOR STAT CARDS
+           ========================================== */
+        const statCards = document.querySelectorAll('.stat-card');
+        statCards.forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.1}s`;
+        });
+
+        /* ==========================================
+           PERFORMANCE: Reduce animations on low-end devices
+           ========================================== */
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            if (animationId) cancelAnimationFrame(animationId);
+            if (typingTimeout) clearTimeout(typingTimeout);
+            document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+                el.classList.add('active');
+            });
+        }
+
+    })();
     </script>
 </body>
 </html>
